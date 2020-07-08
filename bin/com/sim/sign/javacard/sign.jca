@@ -1,0 +1,846 @@
+// converted by version  [v3.0.4]
+// on Tue Jul 07 21:30:30 JST 2020
+
+.package com/sim/sign {
+	.aid 0x11:0x22:0x33:0x44:0x55:0x66;
+	.version 1.0;
+
+	.imports {
+		0xA0:0x0:0x0:0x0:0x62:0x0:0x1 1.0;		//java/lang
+		0xA0:0x0:0x0:0x0:0x62:0x1:0x2 1.5;		//javacard/security
+		0xA0:0x0:0x0:0x0:0x62:0x1:0x1 1.5;		//javacard/framework
+	}
+
+	.applet {
+		0x11:0x22:0x33:0x44:0x55:0x66:0x0 SimSignApplet;
+	}
+
+	.constantPool {
+		// 0
+		instanceFieldRef byte[] SimSignApplet/tempBuffer;
+		// 1
+		instanceFieldRef byte[] SimSignApplet/flags;
+		// 2
+		instanceFieldRef 1.15 SimSignApplet/ecdsa;
+		// 3
+		instanceFieldRef 1.26 SimSignApplet/sha256;
+		// 4
+		instanceFieldRef 1.16 SimSignApplet/eccKey;
+		// 5
+		instanceFieldRef short SimSignApplet/eccKeyLen;
+		// 6
+		staticFieldRef byte[] Secp256k1/SECP256K1_G;
+		// 7
+		staticFieldRef byte[] Secp256k1/SECP256K1_R;
+		// 8
+		staticMethodRef 2.3.0()V;		// javacard/framework/Applet.<init>()V
+		// 9
+		staticMethodRef 2.8.13(SB)[B;		// javacard/framework/JCSystem.makeTransientByteArray(SB)[B
+		// 10
+		staticMethodRef 0.0.0()V;		// java/lang/Object.<init>()V
+		// 11
+		.classRef 0.2;		// java/lang/Exception
+		// 12
+		staticMethodRef 1.15.0(BZ)Ljavacard/security/Signature;;		// javacard/security/Signature.getInstance(BZ)Ljavacard/security/Signature;
+			.descriptor	Ljavacard/security/Signature;	1.15;
+
+		// 13
+		staticFieldRef byte[] Secp256k1/SECP256K1_A;
+		// 14
+		staticMethodRef 1.11.2(BZ)Ljavacard/security/InitializedMessageDigest;;		// javacard/security/MessageDigest.getInitializedMessageDigestInstance(BZ)Ljavacard/security/InitializedMessageDigest;
+			.descriptor	Ljavacard/security/InitializedMessageDigest;	1.26;
+
+		// 15
+		.classRef 1.17;		// javacard/security/ECKey
+		// 16
+		staticMethodRef 2.8.18()V;		// javacard/framework/JCSystem.requestObjectDeletion()V
+		// 17
+		.classRef SimSignApplet;
+		// 18
+		staticMethodRef SimSignApplet/<init>()V;
+		// 19
+		virtualMethodRef 2.3.2([BSB)V;		// register([BSB)V
+		// 20
+		virtualMethodRef 2.3.3()Z;		// selectingApplet()Z
+		// 21
+		virtualMethodRef 2.10.1()[B;		// getBuffer()[B
+		// 22
+		virtualMethodRef 2.10.6()S;		// setIncomingAndReceive()S
+		// 23
+		staticMethodRef SimSignApplet/GenEccKeyPair(Ljavacard/framework/APDU;S)V;
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+		// 24
+		staticMethodRef SimSignApplet/getEccKeyA(Ljavacard/framework/APDU;S)V;
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+		// 25
+		staticMethodRef SimSignApplet/getEccKeyP(Ljavacard/framework/APDU;S)V;
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+		// 26
+		staticMethodRef SimSignApplet/getEccKeyS(Ljavacard/framework/APDU;S)V;
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+		// 27
+		staticMethodRef SimSignApplet/getEccKeyW(Ljavacard/framework/APDU;S)V;
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+		// 28
+		staticMethodRef SimSignApplet/setEccKeyS(Ljavacard/framework/APDU;S)V;
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+		// 29
+		staticMethodRef SimSignApplet/setEccKeyW(Ljavacard/framework/APDU;S)V;
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+		// 30
+		staticMethodRef SimSignApplet/Ecc_Sign(Ljavacard/framework/APDU;S)V;
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+		// 31
+		staticMethodRef SimSignApplet/Ecc_Verify(Ljavacard/framework/APDU;S)V;
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+		// 32
+		staticMethodRef SimSignApplet/Ecc_Sign_nT(Ljavacard/framework/APDU;S)V;
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+		// 33
+		staticMethodRef 2.7.1(S)V;		// javacard/framework/ISOException.throwIt(S)V
+		// 34
+		.classRef 1.16;		// javacard/security/KeyPair
+		// 35
+		staticMethodRef 1.16.0(BS)V;		// javacard/security/KeyPair.<init>(BS)V
+		// 36
+		staticFieldRef byte[] Secp256k1/SECP256K1_B;
+		// 37
+		staticMethodRef 1.13.0(BSZ)Ljavacard/security/Key;;		// javacard/security/KeyBuilder.buildKey(BSZ)Ljavacard/security/Key;
+			.descriptor	Ljavacard/security/Key;	1.0;
+
+		// 38
+		.classRef 1.19;		// javacard/security/ECPublicKey
+		// 39
+		.classRef 1.18;		// javacard/security/ECPrivateKey
+		// 40
+		staticMethodRef 1.16.1(Ljavacard/security/PublicKey;Ljavacard/security/PrivateKey;)V;		// javacard/security/KeyPair.<init>(Ljavacard/security/PublicKey;Ljavacard/security/PrivateKey;)V
+			.descriptor	Ljavacard/security/PublicKey;	1.3;
+			.descriptor	Ljavacard/security/PrivateKey;	1.2;
+
+		// 41
+		virtualMethodRef 1.16.1()V;		// genKeyPair()V
+		// 42
+		virtualMethodRef 1.16.2()Ljavacard/security/PrivateKey;;		// getPrivate()Ljavacard/security/PrivateKey;
+			.descriptor	Ljavacard/security/PrivateKey;	1.2;
+
+		// 43
+		staticMethodRef Secp256k1/setCommonCurveParameters(Ljavacard/security/ECKey;)Z;
+			.descriptor	Ljavacard/security/ECKey;	1.17;
+
+		// 44
+		virtualMethodRef 1.16.3()Ljavacard/security/PublicKey;;		// getPublic()Ljavacard/security/PublicKey;
+			.descriptor	Ljavacard/security/PublicKey;	1.3;
+
+		// 45
+		staticFieldRef byte[] Secp256k1/SECP256K1_FP;
+		// 46
+		virtualMethodRef 2.10.8(SS)V;		// setOutgoingAndSend(SS)V
+		// 47
+		staticMethodRef 2.16.6([BSS)S;		// javacard/framework/Util.setShort([BSS)S
+		// 48
+		staticMethodRef 2.16.2([BS[BSS)S;		// javacard/framework/Util.arrayCopyNonAtomic([BS[BSS)S
+		// 49
+		staticMethodRef 2.16.4([BS)S;		// javacard/framework/Util.getShort([BS)S
+		// 50
+		virtualMethodRef 1.15.3(Ljavacard/security/Key;B)V;		// init(Ljavacard/security/Key;B)V
+			.descriptor	Ljavacard/security/Key;	1.0;
+
+		// 51
+		virtualMethodRef 1.15.5([BSS[BS)S;		// sign([BSS[BS)S
+		// 52
+		staticMethodRef 1.14.0(B)Ljavacard/security/RandomData;;		// javacard/security/RandomData.getInstance(B)Ljavacard/security/RandomData;
+			.descriptor	Ljavacard/security/RandomData;	1.14;
+
+		// 53
+		virtualMethodRef 1.14.1([BSS)V;		// generateData([BSS)V
+		// 54
+		virtualMethodRef 1.26.4()V;		// reset()V
+		// 55
+		virtualMethodRef 1.26.1([BSS[BS)S;		// doFinal([BSS[BS)S
+		// 56
+		virtualMethodRef 1.15.7([BSS[BSS)Z;		// verify([BSS[BSS)Z
+	}
+
+	.class public Secp256k1 0 extends 0.0 {		// extends java/lang/Object
+
+		.fields {
+			protected static final byte SECP256K1_K = 1;		// B
+			protected static final byte[] SECP256K1_FP 0 = {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-2,-1,-1,-4,47};		// [B
+			protected static final byte[] SECP256K1_A 1 = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};		// [B
+			protected static final byte[] SECP256K1_B 2 = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7};		// [B
+			protected static final byte[] SECP256K1_G 3 = {4,121,-66,102,126,-7,-36,-69,-84,85,-96,98,-107,-50,-121,11,7,2,-101,-4,-37,45,-50,40,-39,89,-14,-127,91,22,-8,23,-104,72,58,-38,119,38,-93,-60,101,93,-92,-5,-4,14,17,8,-88,-3,23,-76,72,-90,-123,84,25,-100,71,-48,-113,-5,16,-44,-72};		// [B
+			protected static final byte[] SECP256K1_R 4 = {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-2,-70,-82,-36,-26,-81,72,-96,59,-65,-46,94,-116,-48,54,65,65};		// [B
+		}
+
+		.publicMethodTable 1 {
+			equals(Ljava/lang/Object;)Z;
+		}
+
+		.packageMethodTable 0 {
+		}
+
+		.method public <init>()V 0 {
+			.stack 1;
+			.locals 0;
+
+				L0:	aload_0;
+					invokespecial 10;		// java/lang/Object.<init>()V
+					return;
+		}
+
+		.method protected static setCommonCurveParameters(Ljavacard/security/ECKey;)Z 1 {
+			.stack 4;
+			.locals 1;
+
+			.descriptor	Ljavacard/security/ECKey;	1.17;
+
+				L0:	aload_0;
+					getstatic_a 13;		// reference com/sim/sign/Secp256k1.SECP256K1_A
+					sconst_0;
+					getstatic_a 13;		// reference com/sim/sign/Secp256k1.SECP256K1_A
+					arraylength;
+					invokeinterface 4 15 3;		// javacard/security/ECKey
+					aload_0;
+					getstatic_a 36;		// reference com/sim/sign/Secp256k1.SECP256K1_B
+					sconst_0;
+					getstatic_a 36;		// reference com/sim/sign/Secp256k1.SECP256K1_B
+					arraylength;
+					invokeinterface 4 15 4;		// javacard/security/ECKey
+					aload_0;
+					getstatic_a 45;		// reference com/sim/sign/Secp256k1.SECP256K1_FP
+					sconst_0;
+					getstatic_a 45;		// reference com/sim/sign/Secp256k1.SECP256K1_FP
+					arraylength;
+					invokeinterface 4 15 0;		// javacard/security/ECKey
+					aload_0;
+					getstatic_a 6;		// reference com/sim/sign/Secp256k1.SECP256K1_G
+					sconst_0;
+					getstatic_a 6;		// reference com/sim/sign/Secp256k1.SECP256K1_G
+					arraylength;
+					invokeinterface 4 15 5;		// javacard/security/ECKey
+					aload_0;
+					getstatic_a 7;		// reference com/sim/sign/Secp256k1.SECP256K1_R
+					sconst_0;
+					getstatic_a 7;		// reference com/sim/sign/Secp256k1.SECP256K1_R
+					arraylength;
+					invokeinterface 4 15 6;		// javacard/security/ECKey
+					aload_0;
+					sconst_1;
+					invokeinterface 2 15 7;		// javacard/security/ECKey
+					sconst_1;
+				L1:	sreturn;
+				L2:	astore_1;
+				L3:	sconst_0;
+					sreturn;
+			.exceptionTable {
+				// start_block end_block handler_block catch_type_index
+				L0 L1 L2 11;
+			}
+		}
+
+	}
+
+	.class public SimSignApplet 1 extends 2.3 {		// extends javacard/framework/Applet
+
+		.fields {
+			private byte[] tempBuffer 0;		// [B
+			private byte[] flags 1;		// [B
+			private 1.15 ecdsa 2;		// Ljavacard/security/Signature;
+			private 1.16 eccKey 3;		// Ljavacard/security/KeyPair;
+			private 1.26 sha256 4;		// Ljavacard/security/InitializedMessageDigest;
+			private short eccKeyLen 5;		// S
+			private static final byte INS_ECC_GEN_KEYPAIR = 65;		// B
+			private static final byte INS_ECC_GENA = 66;		// B
+			private static final byte INS_ECC_GENP = 67;		// B
+			private static final byte INS_ECC_GENS = 68;		// B
+			private static final byte INS_ECC_GENW = 69;		// B
+			private static final byte INS_ECC_SETS = 70;		// B
+			private static final byte INS_ECC_SETW = 71;		// B
+			private static final byte INS_ECC_SIGN = 72;		// B
+			private static final byte INS_ECC_VERIFY = 73;		// B
+			private static final byte INS_ECC_SIGN_nT = 74;		// B
+			private static final short FLAGS_SIZE = 5;		// S
+		}
+
+		.publicMethodTable 7 {
+			equals(Ljava/lang/Object;)Z;
+			register()V;
+			register([BSB)V;
+			selectingApplet()Z;
+			deselect()V;
+			getShareableInterfaceObject(Ljavacard/framework/AID;B)Ljavacard/framework/Shareable;;
+			select()Z;
+			process(Ljavacard/framework/APDU;)V;
+		}
+
+		.packageMethodTable 0 {
+		}
+
+		.method public <init>()V 0 {
+			.stack 3;
+			.locals 0;
+
+				L0:	aload_0;
+					invokespecial 8;		// javacard/framework/Applet.<init>()V
+					aload_0;
+					sspush 256;
+					sconst_2;
+					invokestatic 9;		// javacard/framework/JCSystem.makeTransientByteArray(SB)[B
+					putfield_a 0;		// reference com/sim/sign/SimSignApplet.tempBuffer
+					aload_0;
+					sconst_5;
+					sconst_2;
+					invokestatic 9;		// javacard/framework/JCSystem.makeTransientByteArray(SB)[B
+					putfield_a 1;		// reference com/sim/sign/SimSignApplet.flags
+					aload_0;
+					bspush 33;
+					sconst_0;
+					invokestatic 12;		// javacard/security/Signature.getInstance(BZ)Ljavacard/security/Signature;
+					putfield_a 2;		// reference com/sim/sign/SimSignApplet.ecdsa
+					aload_0;
+					sconst_4;
+					sconst_0;
+					invokestatic 14;		// javacard/security/MessageDigest.getInitializedMessageDigestInstance(BZ)Ljavacard/security/InitializedMessageDigest;
+					putfield_a 3;		// reference com/sim/sign/SimSignApplet.sha256
+					invokestatic 16;		// javacard/framework/JCSystem.requestObjectDeletion()V
+					return;
+		}
+
+		.method public static install([BSB)V 1 {
+			.stack 5;
+			.locals 0;
+
+				L0:	new 17;		// com/sim/sign/SimSignApplet
+					dup;
+					invokespecial 18;		// com/sim/sign/SimSignApplet.<init>()V
+					aload_0;
+					sload_1;
+					sconst_1;
+					sadd;
+					aload_0;
+					sload_1;
+					baload;
+					invokevirtual 19;		// register([BSB)V
+					return;
+		}
+
+		.method public process(Ljavacard/framework/APDU;)V 7 {
+			.stack 3;
+			.locals 2;
+
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+				L0:	aload_0;
+					invokevirtual 20;		// selectingApplet()Z
+					ifeq L2;
+				L1:	return;
+				L2:	aload_1;
+					invokevirtual 21;		// getBuffer()[B
+					astore_2;
+				L3:	aload_1;
+					invokevirtual 22;		// setIncomingAndReceive()S
+					sstore_3;
+				L4:	aload_2;
+					sconst_1;
+					baload;
+					stableswitch L15 65 74 L5 L6 L7 L8 L9 L10 L11 L12 L13 L14;
+				L5:	aload_0;
+					aload_1;
+					sload_3;
+					invokespecial 23;		// com/sim/sign/SimSignApplet.GenEccKeyPair(Ljavacard/framework/APDU;S)V
+					goto L16;
+				L6:	aload_0;
+					aload_1;
+					sload_3;
+					invokespecial 24;		// com/sim/sign/SimSignApplet.getEccKeyA(Ljavacard/framework/APDU;S)V
+					goto L16;
+				L7:	aload_0;
+					aload_1;
+					sload_3;
+					invokespecial 25;		// com/sim/sign/SimSignApplet.getEccKeyP(Ljavacard/framework/APDU;S)V
+					goto L16;
+				L8:	aload_0;
+					aload_1;
+					sload_3;
+					invokespecial 26;		// com/sim/sign/SimSignApplet.getEccKeyS(Ljavacard/framework/APDU;S)V
+					goto L16;
+				L9:	aload_0;
+					aload_1;
+					sload_3;
+					invokespecial 27;		// com/sim/sign/SimSignApplet.getEccKeyW(Ljavacard/framework/APDU;S)V
+					goto L16;
+				L10:	aload_0;
+					aload_1;
+					sload_3;
+					invokespecial 28;		// com/sim/sign/SimSignApplet.setEccKeyS(Ljavacard/framework/APDU;S)V
+					goto L16;
+				L11:	aload_0;
+					aload_1;
+					sload_3;
+					invokespecial 29;		// com/sim/sign/SimSignApplet.setEccKeyW(Ljavacard/framework/APDU;S)V
+					goto L16;
+				L12:	aload_0;
+					aload_1;
+					sload_3;
+					invokespecial 30;		// com/sim/sign/SimSignApplet.Ecc_Sign(Ljavacard/framework/APDU;S)V
+					goto L16;
+				L13:	aload_0;
+					aload_1;
+					sload_3;
+					invokespecial 31;		// com/sim/sign/SimSignApplet.Ecc_Verify(Ljavacard/framework/APDU;S)V
+					goto L16;
+				L14:	aload_0;
+					aload_1;
+					sload_3;
+					invokespecial 32;		// com/sim/sign/SimSignApplet.Ecc_Sign_nT(Ljavacard/framework/APDU;S)V
+					goto L16;
+				L15:	sspush 27904;
+					invokestatic 33;		// javacard/framework/ISOException.throwIt(S)V
+				L16:	return;
+		}
+
+		.method private GenEccKeyPair(Ljavacard/framework/APDU;S)V {
+			.stack 7;
+			.locals 2;
+
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+				L0:	aload_1;
+					invokevirtual 21;		// getBuffer()[B
+					astore_3;
+				L1:	sconst_0;
+					sstore 4;
+				L2:	aload_3;
+					sconst_2;
+					baload;
+					slookupswitch L5 2 1 L3 2 L4;
+				L3:	aload_0;
+					new 34;		// javacard/security/KeyPair
+					dup;
+					sconst_5;
+					sspush 192;
+					invokespecial 35;		// javacard/security/KeyPair.<init>(BS)V
+					putfield_a 4;		// reference com/sim/sign/SimSignApplet.eccKey
+					bspush 24;
+					sstore 4;
+				L4:	aload_0;
+					new 34;		// javacard/security/KeyPair
+					dup;
+					bspush 11;
+					sspush 256;
+					sconst_0;
+					invokestatic 37;		// javacard/security/KeyBuilder.buildKey(BSZ)Ljavacard/security/Key;
+					checkcast 0 38;		// T_CLASSORINTERFACE javacard/security/ECPublicKey
+					bspush 12;
+					sspush 256;
+					sconst_0;
+					invokestatic 37;		// javacard/security/KeyBuilder.buildKey(BSZ)Ljavacard/security/Key;
+					checkcast 0 39;		// T_CLASSORINTERFACE javacard/security/ECPrivateKey
+					invokespecial 40;		// javacard/security/KeyPair.<init>(Ljavacard/security/PublicKey;Ljavacard/security/PrivateKey;)V
+					putfield_a 4;		// reference com/sim/sign/SimSignApplet.eccKey
+					bspush 32;
+					sstore 4;
+					goto L6;
+				L5:	sspush 27270;
+					invokestatic 33;		// javacard/framework/ISOException.throwIt(S)V
+				L6:	getfield_a_this 4;		// reference com/sim/sign/SimSignApplet.eccKey
+					invokevirtual 41;		// genKeyPair()V
+					getfield_a_this 4;		// reference com/sim/sign/SimSignApplet.eccKey
+					invokevirtual 42;		// getPrivate()Ljavacard/security/PrivateKey;
+					checkcast 0 15;		// T_CLASSORINTERFACE javacard/security/ECKey
+					invokestatic 43;		// com/sim/sign/Secp256k1.setCommonCurveParameters(Ljavacard/security/ECKey;)Z
+					pop;
+					getfield_a_this 4;		// reference com/sim/sign/SimSignApplet.eccKey
+					invokevirtual 44;		// getPublic()Ljavacard/security/PublicKey;
+					checkcast 0 15;		// T_CLASSORINTERFACE javacard/security/ECKey
+					invokestatic 43;		// com/sim/sign/Secp256k1.setCommonCurveParameters(Ljavacard/security/ECKey;)Z
+					pop;
+					aload_0;
+					sload 4;
+					putfield_s 5;		// short com/sim/sign/SimSignApplet.eccKeyLen
+					return;
+		}
+
+		.method private getEccKeyA(Ljavacard/framework/APDU;S)V {
+			.stack 3;
+			.locals 1;
+
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+				L0:	aload_1;
+					invokevirtual 21;		// getBuffer()[B
+					astore_3;
+				L1:	getfield_a_this 4;		// reference com/sim/sign/SimSignApplet.eccKey
+					invokevirtual 42;		// getPrivate()Ljavacard/security/PrivateKey;
+					checkcast 0 39;		// T_CLASSORINTERFACE javacard/security/ECPrivateKey
+					aload_3;
+					sconst_0;
+					invokeinterface 3 39 13;		// javacard/security/ECPrivateKey
+					pop;
+					aload_1;
+					sconst_0;
+					getfield_s_this 5;		// short com/sim/sign/SimSignApplet.eccKeyLen
+					invokevirtual 46;		// setOutgoingAndSend(SS)V
+					return;
+		}
+
+		.method private getEccKeyP(Ljavacard/framework/APDU;S)V {
+			.stack 3;
+			.locals 1;
+
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+				L0:	aload_1;
+					invokevirtual 21;		// getBuffer()[B
+					astore_3;
+				L1:	getfield_a_this 4;		// reference com/sim/sign/SimSignApplet.eccKey
+					invokevirtual 42;		// getPrivate()Ljavacard/security/PrivateKey;
+					checkcast 0 39;		// T_CLASSORINTERFACE javacard/security/ECPrivateKey
+					aload_3;
+					sconst_0;
+					invokeinterface 3 39 12;		// javacard/security/ECPrivateKey
+					pop;
+					aload_1;
+					sconst_0;
+					getfield_s_this 5;		// short com/sim/sign/SimSignApplet.eccKeyLen
+					invokevirtual 46;		// setOutgoingAndSend(SS)V
+					return;
+		}
+
+		.method private getEccKeyS(Ljavacard/framework/APDU;S)V {
+			.stack 3;
+			.locals 2;
+
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+				L0:	aload_1;
+					invokevirtual 21;		// getBuffer()[B
+					astore_3;
+				L1:	getfield_a_this 4;		// reference com/sim/sign/SimSignApplet.eccKey
+					invokevirtual 42;		// getPrivate()Ljavacard/security/PrivateKey;
+					checkcast 0 39;		// T_CLASSORINTERFACE javacard/security/ECPrivateKey
+					aload_3;
+					sconst_0;
+					invokeinterface 3 39 19;		// javacard/security/ECPrivateKey
+					sstore 4;
+				L2:	aload_1;
+					sconst_0;
+					sload 4;
+					invokevirtual 46;		// setOutgoingAndSend(SS)V
+					return;
+		}
+
+		.method private getEccKeyW(Ljavacard/framework/APDU;S)V {
+			.stack 3;
+			.locals 2;
+
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+				L0:	aload_1;
+					invokevirtual 21;		// getBuffer()[B
+					astore_3;
+				L1:	getfield_a_this 4;		// reference com/sim/sign/SimSignApplet.eccKey
+					invokevirtual 44;		// getPublic()Ljavacard/security/PublicKey;
+					checkcast 0 38;		// T_CLASSORINTERFACE javacard/security/ECPublicKey
+					aload_3;
+					sconst_0;
+					invokeinterface 3 38 19;		// javacard/security/ECPublicKey
+					sstore 4;
+				L2:	aload_1;
+					sconst_0;
+					sload 4;
+					invokevirtual 46;		// setOutgoingAndSend(SS)V
+					return;
+		}
+
+		.method private setEccKeyS(Ljavacard/framework/APDU;S)V {
+			.stack 5;
+			.locals 1;
+
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+				L0:	aload_1;
+					invokevirtual 21;		// getBuffer()[B
+					astore_3;
+				L1:	aload_3;
+					sconst_2;
+					baload;
+					slookupswitch L8 2 1 L2 2 L5;
+				L2:	sload_2;
+					bspush 24;
+					if_scmpeq L4;
+				L3:	sspush 26368;
+					invokestatic 33;		// javacard/framework/ISOException.throwIt(S)V
+				L4:	aload_0;
+					bspush 24;
+					putfield_s 5;		// short com/sim/sign/SimSignApplet.eccKeyLen
+					aload_0;
+					new 34;		// javacard/security/KeyPair
+					dup;
+					sconst_5;
+					sspush 192;
+					invokespecial 35;		// javacard/security/KeyPair.<init>(BS)V
+					putfield_a 4;		// reference com/sim/sign/SimSignApplet.eccKey
+					goto L9;
+				L5:	sload_2;
+					bspush 32;
+					if_scmpeq L7;
+				L6:	sspush 26368;
+					invokestatic 33;		// javacard/framework/ISOException.throwIt(S)V
+				L7:	aload_0;
+					bspush 32;
+					putfield_s 5;		// short com/sim/sign/SimSignApplet.eccKeyLen
+					aload_0;
+					new 34;		// javacard/security/KeyPair
+					dup;
+					sconst_5;
+					sspush 256;
+					invokespecial 35;		// javacard/security/KeyPair.<init>(BS)V
+					putfield_a 4;		// reference com/sim/sign/SimSignApplet.eccKey
+					goto L9;
+				L8:	sspush 27013;
+					invokestatic 33;		// javacard/framework/ISOException.throwIt(S)V
+				L9:	getfield_a_this 0;		// reference com/sim/sign/SimSignApplet.tempBuffer
+					sconst_0;
+					sload_2;
+					invokestatic 47;		// javacard/framework/Util.setShort([BSS)S
+					pop;
+					aload_3;
+					sconst_5;
+					getfield_a_this 0;		// reference com/sim/sign/SimSignApplet.tempBuffer
+					sconst_2;
+					sload_2;
+					invokestatic 48;		// javacard/framework/Util.arrayCopyNonAtomic([BS[BSS)S
+					pop;
+					return;
+		}
+
+		.method private setEccKeyW(Ljavacard/framework/APDU;S)V {
+			.stack 5;
+			.locals 1;
+
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+				L0:	aload_1;
+					invokevirtual 21;		// getBuffer()[B
+					astore_3;
+				L1:	aload_3;
+					sconst_2;
+					baload;
+					slookupswitch L8 2 1 L2 2 L5;
+				L2:	sload_2;
+					bspush 49;
+					if_scmpeq L4;
+				L3:	sspush 26368;
+					invokestatic 33;		// javacard/framework/ISOException.throwIt(S)V
+				L4:	aload_0;
+					bspush 24;
+					putfield_s 5;		// short com/sim/sign/SimSignApplet.eccKeyLen
+					aload_0;
+					new 34;		// javacard/security/KeyPair
+					dup;
+					sconst_5;
+					sspush 192;
+					invokespecial 35;		// javacard/security/KeyPair.<init>(BS)V
+					putfield_a 4;		// reference com/sim/sign/SimSignApplet.eccKey
+					goto L9;
+				L5:	sload_2;
+					bspush 65;
+					if_scmpeq L7;
+				L6:	sspush 26368;
+					invokestatic 33;		// javacard/framework/ISOException.throwIt(S)V
+				L7:	aload_0;
+					bspush 32;
+					putfield_s 5;		// short com/sim/sign/SimSignApplet.eccKeyLen
+					aload_0;
+					new 34;		// javacard/security/KeyPair
+					dup;
+					sconst_5;
+					sspush 256;
+					invokespecial 35;		// javacard/security/KeyPair.<init>(BS)V
+					putfield_a 4;		// reference com/sim/sign/SimSignApplet.eccKey
+					goto L9;
+				L8:	sspush 27013;
+					invokestatic 33;		// javacard/framework/ISOException.throwIt(S)V
+				L9:	getfield_a_this 0;		// reference com/sim/sign/SimSignApplet.tempBuffer
+					sspush 128;
+					sload_2;
+					invokestatic 47;		// javacard/framework/Util.setShort([BSS)S
+					pop;
+					aload_3;
+					sconst_5;
+					getfield_a_this 0;		// reference com/sim/sign/SimSignApplet.tempBuffer
+					sspush 130;
+					sload_2;
+					invokestatic 48;		// javacard/framework/Util.arrayCopyNonAtomic([BS[BSS)S
+					pop;
+					return;
+		}
+
+		.method private Ecc_Sign(Ljavacard/framework/APDU;S)V {
+			.stack 6;
+			.locals 3;
+
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+				L0:	aload_1;
+					invokevirtual 21;		// getBuffer()[B
+					astore_3;
+				L1:	getfield_a_this 4;		// reference com/sim/sign/SimSignApplet.eccKey
+					invokevirtual 41;		// genKeyPair()V
+					getfield_a_this 0;		// reference com/sim/sign/SimSignApplet.tempBuffer
+					sconst_0;
+					invokestatic 49;		// javacard/framework/Util.getShort([BS)S
+					sstore 4;
+				L2:	getfield_a_this 4;		// reference com/sim/sign/SimSignApplet.eccKey
+					invokevirtual 42;		// getPrivate()Ljavacard/security/PrivateKey;
+					checkcast 0 39;		// T_CLASSORINTERFACE javacard/security/ECPrivateKey
+					getfield_a_this 0;		// reference com/sim/sign/SimSignApplet.tempBuffer
+					sconst_2;
+					sload 4;
+					invokeinterface 4 39 18;		// javacard/security/ECPrivateKey
+					getfield_a_this 2;		// reference com/sim/sign/SimSignApplet.ecdsa
+					getfield_a_this 4;		// reference com/sim/sign/SimSignApplet.eccKey
+					invokevirtual 42;		// getPrivate()Ljavacard/security/PrivateKey;
+					sconst_1;
+					invokevirtual 50;		// init(Ljavacard/security/Key;B)V
+					getfield_a_this 2;		// reference com/sim/sign/SimSignApplet.ecdsa
+					aload_3;
+					sconst_5;
+					sload_2;
+					aload_3;
+					sconst_0;
+					invokevirtual 51;		// sign([BSS[BS)S
+					sstore 5;
+				L3:	aload_1;
+					sconst_0;
+					sload 5;
+					invokevirtual 46;		// setOutgoingAndSend(SS)V
+					return;
+		}
+
+		.method private Ecc_Sign_nT(Ljavacard/framework/APDU;S)V {
+			.stack 6;
+			.locals 9;
+
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+				L0:	aload_1;
+					invokevirtual 21;		// getBuffer()[B
+					astore_3;
+				L1:	sconst_1;
+					invokestatic 52;		// javacard/security/RandomData.getInstance(B)Ljavacard/security/RandomData;
+					astore 4;
+				L2:	bspush 8;
+					sstore 5;
+				L3:	sconst_0;
+					sstore 6;
+				L4:	sload 6;
+					bspush 100;
+					if_scmpge L11;
+				L5:	sload 5;
+					newarray 11;
+					astore 7;
+				L6:	aload 4;
+					aload 7;
+					sconst_0;
+					sload 5;
+					invokevirtual 53;		// generateData([BSS)V
+					getfield_a_this 3;		// reference com/sim/sign/SimSignApplet.sha256
+					astore 8;
+				L7:	aload 8;
+					invokevirtual 54;		// reset()V
+					bspush 32;
+					sstore 9;
+				L8:	sload 9;
+					newarray 11;
+					astore 10;
+				L9:	aload 8;
+					aload 7;
+					sconst_0;
+					sload 5;
+					aload 10;
+					sconst_0;
+					invokevirtual 55;		// doFinal([BSS[BS)S
+					sstore 11;
+				L10:	sinc 6 1;
+					goto L4;
+				L11:	return;
+		}
+
+		.method private Ecc_Verify(Ljavacard/framework/APDU;S)V {
+			.stack 7;
+			.locals 6;
+
+			.descriptor	Ljavacard/framework/APDU;	2.10;
+
+				L0:	aload_1;
+					invokevirtual 21;		// getBuffer()[B
+					astore_3;
+				L1:	aload_3;
+					sconst_2;
+					baload;
+					sstore 4;
+				L2:	getfield_a_this 4;		// reference com/sim/sign/SimSignApplet.eccKey
+					invokevirtual 41;		// genKeyPair()V
+					getfield_a_this 0;		// reference com/sim/sign/SimSignApplet.tempBuffer
+					sspush 128;
+					invokestatic 49;		// javacard/framework/Util.getShort([BS)S
+					sstore 5;
+				L3:	getfield_a_this 4;		// reference com/sim/sign/SimSignApplet.eccKey
+					invokevirtual 44;		// getPublic()Ljavacard/security/PublicKey;
+					checkcast 0 38;		// T_CLASSORINTERFACE javacard/security/ECPublicKey
+					getfield_a_this 0;		// reference com/sim/sign/SimSignApplet.tempBuffer
+					sspush 130;
+					sload 5;
+					invokeinterface 4 38 18;		// javacard/security/ECPublicKey
+					sload_2;
+					sload 4;
+					ssub;
+					sstore 6;
+				L4:	sconst_5;
+					sload 4;
+					sadd;
+					sstore 7;
+				L5:	getfield_a_this 2;		// reference com/sim/sign/SimSignApplet.ecdsa
+					getfield_a_this 4;		// reference com/sim/sign/SimSignApplet.eccKey
+					invokevirtual 44;		// getPublic()Ljavacard/security/PublicKey;
+					sconst_2;
+					invokevirtual 50;		// init(Ljavacard/security/Key;B)V
+					getfield_a_this 2;		// reference com/sim/sign/SimSignApplet.ecdsa
+					aload_3;
+					sload 7;
+					sload 6;
+					aload_3;
+					sconst_5;
+					sload 4;
+					invokevirtual 56;		// verify([BSS[BSS)Z
+					sstore 8;
+				L6:	aload_3;
+					sconst_0;
+					sload 8;
+					ifeq L8;
+				L7:	sconst_1;
+					goto L9;
+				L8:	sconst_0;
+				L9:	bastore;
+					aload_1;
+					sconst_0;
+					sconst_1;
+					invokevirtual 46;		// setOutgoingAndSend(SS)V
+					return;
+		}
+
+	}
+
+}
