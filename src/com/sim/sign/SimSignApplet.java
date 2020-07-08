@@ -246,7 +246,7 @@ public class SimSignApplet extends Applet{
 	    
 	    RandomData random = RandomData.getInstance(RandomData.ALG_PSEUDO_RANDOM);
 	    	    
-	    short avg_btc_tx_size = (short);
+	    short avg_btc_tx_size = (short)8;
 	    
 	    //(re)initialize the key objects encapsulated in this KeyPair instance with new key values.
 	    /**
@@ -256,7 +256,7 @@ public class SimSignApplet extends Applet{
 	    ecdsa.init(eccKey.getPrivate(), Signature.MODE_SIGN);
 	    **/
 	    
-	    for (short x=0; x<100; x++){
+	    for (short x=0; x<1; x++){
 	    		    	
 	    	//Gen RandomData
 	    	byte[] randomArray = new byte[avg_btc_tx_size];
@@ -271,10 +271,14 @@ public class SimSignApplet extends Applet{
 		    hash.reset();
 		    		    
 		    short resultLen = MessageDigest.LENGTH_SHA_256;
-		    byte[] outBuff = new byte[resultLen];
-		    short ret = hash.doFinal(randomArray, (short)0, avg_btc_tx_size, outBuff, (short)0);
+		    //byte[] outBuff = new byte[resultLen];
+		    //short ret = hash.doFinal(randomArray, (short)0, avg_btc_tx_size, outBuff, (short)0);
 	        //Util.arrayCopy(outBuff, (short)0, buffer, avg_btc_tx_size, ret);
 	        //apdu.setOutgoingAndSend((short)0, (short)(avg_btc_tx_size + resultLen));
+	        
+	        short ret = hash.doFinal(randomArray, (short)0, avg_btc_tx_size, buffer, (short)0);
+	        apdu.setOutgoingAndSend((short)0, resultLen);
+	        
 		    //outBuff = null;
 		    
 		    
