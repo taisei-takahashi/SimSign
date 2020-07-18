@@ -15,7 +15,8 @@ public class SimSignApplet extends Applet{
 	private static final byte INS_ECC_SETW          =  (byte)0x47;
 	private static final byte INS_ECC_SIGN          =  (byte)0x48;
 	private static final byte INS_ECC_VERIFY        =  (byte)0x49;
-	private static final byte INS_ECC_SIGN_nT       =  (byte)0x4A;
+	private static final byte INS_ECC_SIGN_NTIMES   =  (byte)0x4A;
+	private static final byte INS_ECC_SIGN_INPUT    =  (byte)0x4B;
 	
 	private byte[] tempBuffer;
 	private byte[] flags;
@@ -33,7 +34,6 @@ public class SimSignApplet extends Applet{
 		
 		ecdsa = Signature.getInstance(Signature.ALG_ECDSA_SHA_256, false);
 		sha256 = MessageDigest.getInitializedMessageDigestInstance(MessageDigest.ALG_SHA_256, false);
-		//sha256 = MessageDigest.getInstance(MessageDigest.ALG_SHA_256, false);
 		
 		JCSystem.requestObjectDeletion();
 	}
@@ -67,24 +67,23 @@ public class SimSignApplet extends Applet{
 		case INS_ECC_GENW:
 			getEccKeyW(apdu, len);
 			break;
-	    case INS_ECC_SETS://PrivateKey
-	        //ECC_SET_S
+	    case INS_ECC_SETS://PrivateKey ECC_SET_S
 	        setEccKeyS(apdu, len);
 	        break;
-	    case INS_ECC_SETW://PublicKey
-	    	//ECC_SET_W
+	    case INS_ECC_SETW://PublicKey ECC_SET_W
 	    	setEccKeyW(apdu, len);
 	    	break;
-		case INS_ECC_SIGN:
-			//ECC SIGN
+		case INS_ECC_SIGN: //ECC SIGN
 			Ecc_Sign(apdu, len);
 			break;
-		case INS_ECC_VERIFY:
-			//ECC Verify
+		case INS_ECC_VERIFY: //ECC Verify
 			Ecc_Verify(apdu, len);
 			break;
-		case INS_ECC_SIGN_nT:
-			Ecc_Sign_nT(apdu, len);
+		case INS_ECC_SIGN_NTIMES:
+			Sign_nTimes(apdu, len);
+			break;
+		case INS_ECC_SIGN_INPUT:
+			Sign_InputData(apdu, len);
 			break;
 		default:
 			ISOException.throwIt(ISO7816.SW_INS_NOT_SUPPORTED);
@@ -120,6 +119,20 @@ public class SimSignApplet extends Applet{
 		Secp256k1.setCommonCurveParameters((ECKey)eccKey.getPublic());
 	    
 	    eccKeyLen = KeyLen;
+	    
+	    /**
+	    //Store privateKey to tempBuffer
+	    short privateKeyLength = ((ECPrivateKey)eccKey.getPrivate()).getS(tempBuffer, (short)2);
+	    Util.setShort(tempBuffer, (short)0, privateKeyLength);
+	    
+	    //Store publicKey to tempBuffer
+	    short publicKeyLength = ((ECPublicKey)eccKey.getPublic()).getW(tempBuffer, (short)130);
+	    Util.setShort(tempBuffer, (short)128, publicKeyLength);
+	    
+	    
+	    //Util.arrayCopyNonAtomic(tempBuffer, (short)0, buffer, (short)0, (short)256);
+	    //apdu.setOutgoingAndSend((short)0, (short)256);
+	    **/
     }
     
     private void getEccKeyA(APDU apdu, short len){
@@ -241,23 +254,21 @@ public class SimSignApplet extends Applet{
     **/
     
   
-    private void Ecc_Sign_nT(APDU apdu, short len){
-	    byte[] buffer = apdu.getBuffer();
-	    
-	    RandomData random = RandomData.getInstance(RandomData.ALG_PSEUDO_RANDOM);
-	    	    
-	    short avg_btc_tx_size = (short)8;
+    private void Sign_nTimes(APDU apdu, short len){
+	    byte[] buffer = apdu.getBuffer();    
+	    //RandomData random = RandomData.getInstance(RandomData.ALG_PSEUDO_RANDOM);
+	    //short avg_btc_tx_size = (short)8;
 	    
 	    //(re)initialize the key objects encapsulated in this KeyPair instance with new key values.
-	    /**
 	    eccKey.genKeyPair();
 	    short eccPriKeyLen = Util.getShort(tempBuffer, (short)0);
 	    ((ECPrivateKey)eccKey.getPrivate()).setS(tempBuffer, (short)2, eccPriKeyLen);	    
 	    ecdsa.init(eccKey.getPrivate(), Signature.MODE_SIGN);
-	    **/
-	    
-	    for (short x=0; x<1; x++){
-	    		    	
+	    short offset = ISO7816.OFFSET_CDATA;
+	    	    
+	    //short n = ISO7816.OFFSET_P1;
+	    for (short x=0; x<100; x++){	    	
+	    	/**	    	
 	    	//Gen RandomData
 	    	byte[] randomArray = new byte[avg_btc_tx_size];
 	    	random.generateData(randomArray, (short)0, avg_btc_tx_size);
@@ -265,30 +276,57 @@ public class SimSignApplet extends Applet{
             //apdu.setOutgoingAndSend((short)0, avg_btc_tx_size);
             //randomArray = null;
             
-		    //Gen hash(SHA-256)		    
-		    //generateHash(apdu, randomArray);
+		    //Hash(SHA-256)		    
 		    InitializedMessageDigest hash = sha256;
 		    hash.reset();
-		    		    
-		    short resultLen = MessageDigest.LENGTH_SHA_256;
-		    //byte[] outBuff = new byte[resultLen];
-		    //short ret = hash.doFinal(randomArray, (short)0, avg_btc_tx_size, outBuff, (short)0);
+		    
+
+		    short hashLen = MessageDigest.LENGTH_SHA_256;
+		    byte[] hashBuff = new byte[hashLen];
+		    short ret = hash.doFinal(randomArray, (short)0, avg_btc_tx_size, hashBuff, (short)0);
 	        //Util.arrayCopy(outBuff, (short)0, buffer, avg_btc_tx_size, ret);
-	        //apdu.setOutgoingAndSend((short)0, (short)(avg_btc_tx_size + resultLen));
-	        
-	        short ret = hash.doFinal(randomArray, (short)0, avg_btc_tx_size, buffer, (short)0);
-	        apdu.setOutgoingAndSend((short)0, resultLen);
-	        
-		    //outBuff = null;
+	        //apdu.setOutgoingAndSend((short)0, (short)(avg_btc_tx_size + hashLen));
+
+	        //Hash debug
+	        //short ret = hash.doFinal(randomArray, (short)0, avg_btc_tx_size, buffer, (short)0);
+	        //apdu.setOutgoingAndSend((short)0, hashLen);
+	        **/
 		    
-		    
-		    //sign(hash256)
-		    /**	            
-	        short lenTmp = ecdsa.sign(buffer, ISO7816.OFFSET_CDATA, len, buffer, (short)0);
-	        **/		    
-	    }
-	    //apdu.setOutgoingAndSend((short)0, lenTmp);    
-    }    
+		    //Sign
+	        byte[] outputBuff = new byte[(short)256];
+	        short signLen = ecdsa.sign(buffer, offset, len, outputBuff, (short)0);
+	        //apdu.setOutgoingAndSend((short)0, signLen);
+	    } 
+    }
+    
+    private void Sign_InputData(APDU apdu, short len){
+	    byte[] buffer = apdu.getBuffer();
+	    short offset = ISO7816.OFFSET_CDATA;
+	    
+	    /**
+		// Receive 250byte APDU input. Return the hashed and signed value.
+		//Hash
+		InitializedMessageDigest hash = sha256;
+		short hashLen = MessageDigest.LENGTH_SHA_256;
+		byte[] hashBuff = new byte[hashLen];
+		hash.doFinal(buffer, offset, len, hashBuff, (short)0);
+		
+		//Hash(Debug) 
+		short hashLen = hash.doFinal(buffer, offset, len, buffer, (short)0);
+		apdu.setOutgoingAndSend((short)0, hashLen);
+		**/
+		
+		//Sign
+		eccKey.genKeyPair();
+	    short eccPriKeyLen = Util.getShort(tempBuffer, (short)0);
+	    ((ECPrivateKey)eccKey.getPrivate()).setS(tempBuffer, (short)2, eccPriKeyLen);	    
+	    ecdsa.init(eccKey.getPrivate(), Signature.MODE_SIGN);
+	    
+	    //short signLen = ecdsa.sign(hashBuff, (short)0, hashLen, buffer, (short)0);
+	    byte[] outputBuff = new byte[(short)256];
+	    short signLen = ecdsa.sign(buffer, offset, len, outputBuff, (short)0);
+	    //apdu.setOutgoingAndSend((short)0, signLen);
+    }
     
     private void Ecc_Verify(APDU apdu, short len){
 	    byte[] buffer = apdu.getBuffer();
