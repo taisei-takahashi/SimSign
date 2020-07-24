@@ -6,17 +6,18 @@ import javacardx.crypto.*;
 
 public class SimSignApplet extends Applet{
 	
-	private static final byte INS_ECC_GEN_KEYPAIR   =  (byte)0x41;
-	private static final byte INS_ECC_GENA          =  (byte)0x42;
-	private static final byte INS_ECC_GENP          =  (byte)0x43;
-	private static final byte INS_ECC_GENS          =  (byte)0x44;
-	private static final byte INS_ECC_GENW          =  (byte)0x45;
-	private static final byte INS_ECC_SETS          =  (byte)0x46;
-	private static final byte INS_ECC_SETW          =  (byte)0x47;
-	private static final byte INS_ECC_SIGN          =  (byte)0x48;
-	private static final byte INS_ECC_VERIFY        =  (byte)0x49;
-	private static final byte INS_ECC_SIGN_NTIMES   =  (byte)0x4A;
-	private static final byte INS_ECC_SIGN_INPUT    =  (byte)0x4B;
+	private static final byte INS_ECC_GEN_KEYPAIR         =  (byte)0x41;
+	private static final byte INS_ECC_GENA                =  (byte)0x42;
+	private static final byte INS_ECC_GENP                =  (byte)0x43;
+	private static final byte INS_ECC_GENS                =  (byte)0x44;
+	private static final byte INS_ECC_GENW                =  (byte)0x45;
+	private static final byte INS_ECC_SETS                =  (byte)0x46;
+	private static final byte INS_ECC_SETW                =  (byte)0x47;
+	private static final byte INS_ECC_SIGN                =  (byte)0x48;
+	private static final byte INS_ECC_VERIFY              =  (byte)0x49;
+	private static final byte INS_ECC_SIGN_NTIMES         =  (byte)0x4A;
+	private static final byte INS_ECC_SIGN_INPUT          =  (byte)0x4B;
+	private static final byte INS_ECC_GEN_KEYPAIR_NTIMES  =  (byte)0x4C;
 	
 	private byte[] tempBuffer;
 	private byte[] flags;
@@ -55,6 +56,9 @@ public class SimSignApplet extends Applet{
 		    //Gen KeyPair
 		    GenEccKeyPair(apdu, len);
 		    break;
+		case INS_ECC_GEN_KEYPAIR_NTIMES:
+			GenEccKeyPairNtimes(apdu, len);
+			break;
 		case INS_ECC_GENA:
 			getEccKeyA(apdu, len);
 			break;
@@ -111,8 +115,6 @@ public class SimSignApplet extends Applet{
 			ISOException.throwIt(ISO7816.SW_INCORRECT_P1P2);
 			break;
 	    }
-	    //Secp256k1.setCommonCurveParameters((ECKey)eccKey.getPrivate());
-		//Secp256k1.setCommonCurveParameters((ECKey)eccKey.getPublic());
 	     
 	    eccKey.genKeyPair();
 	    Secp256k1.setCommonCurveParameters((ECKey)eccKey.getPrivate());
@@ -133,6 +135,38 @@ public class SimSignApplet extends Applet{
 	    //Util.arrayCopyNonAtomic(tempBuffer, (short)0, buffer, (short)0, (short)256);
 	    //apdu.setOutgoingAndSend((short)0, (short)256);
 	    **/
+    }
+    
+    private void GenEccKeyPairNtimes(APDU apdu, short len){
+	    //byte[] buffer = apdu.getBuffer();
+	    //short KeyLen = (short)0;
+	    
+	    /**	    
+	    eccKey = new KeyPair(
+		            (ECPublicKey)KeyBuilder.buildKey(KeyBuilder.TYPE_EC_FP_PUBLIC, KeyBuilder.LENGTH_EC_FP_256, false),
+                    (ECPrivateKey)KeyBuilder.buildKey(KeyBuilder.TYPE_EC_FP_PRIVATE_TRANSIENT_DESELECT, KeyBuilder.LENGTH_EC_FP_256, false));
+        **/
+        
+        eccKey = new KeyPair(
+                        (ECPublicKey)KeyBuilder.buildKey(KeyBuilder.TYPE_EC_FP_PUBLIC, KeyBuilder.LENGTH_EC_FP_256, false),
+                        (ECPrivateKey)KeyBuilder.buildKey(KeyBuilder.TYPE_EC_FP_PRIVATE, KeyBuilder.LENGTH_EC_FP_256, false));
+                    
+	    for(short x=0; x<3; x++){
+	    	//transientPrivate = (ECPrivateKey)KeyBuilder.buildKey(KeyBuilder.TYPE_EC_FP_PRIVATE_TRANSIENT_DESELECT, KeyBuilder.LENGTH_EC_FP_256, false);
+	    	
+            eccKey.genKeyPair();
+            Secp256k1.setCommonCurveParameters((ECKey)eccKey.getPrivate());
+		    Secp256k1.setCommonCurveParameters((ECKey)eccKey.getPublic());
+            
+            /**
+            transientPrivate = (ECPrivateKey)KeyBuilder.buildKey(KeyBuilder.TYPE_EC_FP_PRIVATE_TRANSIENT_DESELECT, KeyBuilder.LENGTH_EC_FP_256, false);
+            transientPublic  = (ECPublicKey)KeyBuilder.buildKey(KeyBuilder.TYPE_EC_FP_PUBLIC, KeyBuilder.LENGTH_EC_FP_256, false);
+            transientPrivate.clearKey();
+            transientPublic.clearKey();
+            **/
+            //eccKey = null;
+            //eccKey.genKeyPair();
+	    }
     }
     
     private void getEccKeyA(APDU apdu, short len){
@@ -267,7 +301,7 @@ public class SimSignApplet extends Applet{
 	    short offset = ISO7816.OFFSET_CDATA;
 	    	    
 	    //short n = ISO7816.OFFSET_P1;
-	    for (short x=0; x<100; x++){	    	
+	    for (short x=0; x<10; x++){	    	
 	    	/**	    	
 	    	//Gen RandomData
 	    	byte[] randomArray = new byte[avg_btc_tx_size];
